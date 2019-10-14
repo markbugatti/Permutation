@@ -22,7 +22,7 @@
         </Grid.RowDefinitions>
         <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Вихідний текст" VerticalAlignment="Center" FontSize="12pt" Padding="10 5"/>
         <TextBlock Grid.Column="2" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Зашифрований текст" VerticalAlignment="Center" FontSize="12pt" Padding="10 5"/>
-        <TextBox x:Name="OriginalTextBox" HorizontalAlignment="Stretch" Grid.Row="1" TextWrapping="Wrap" FontSize="12pt" VerticalAlignment="Stretch" Text=""/>
+        <TextBox x:Name="OriginalTextBox" HorizontalAlignment="Stretch" Grid.Row="1" TextWrapping="Wrap" FontSize="12pt" VerticalAlignment="Stretch" Text="hello Mark, how it is goeing"/>
         <TextBox x:Name="EncryptedTextBox" Grid.Column="2" HorizontalAlignment="Stretch" Grid.Row="1" TextWrapping="Wrap" FontSize="12pt" VerticalAlignment="Stretch" Text=""/>
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
@@ -30,15 +30,20 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <TextBlock Text="Ключове слово:" FontSize="12pt" VerticalAlignment="Center" Padding="10 5"/>
-            <TextBox x:Name="KeyTextBox" Grid.Column="2" FontSize="12pt" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0 10" Text=""></TextBox>
+            <TextBox x:Name="KeyTextBox" Grid.Column="2" FontSize="12pt" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0 10" Text="mark"></TextBox>
         </Grid>
         <TextBlock Grid.Row="3" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Таблиця вихідного тексту" VerticalAlignment="Center" FontSize="12pt" Padding="10 5"/>
         <TextBlock Grid.Row="3" Grid.Column="2" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Таблиця зашифрованого тексту" VerticalAlignment="Center" FontSize="12pt" Padding="10 5"/>
 
-        <Grid x:Name="OriginalTable" Grid.Row="4" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch"/>
-        <Grid x:Name="EncryptedTable" Grid.Column="2" Grid.Row="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-
+        <ScrollViewer Grid.Row="4" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+            <Grid x:Name="OriginalTable" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch"/>
+        </ScrollViewer>
+        <ScrollViewer Grid.Column="2" Grid.Row="4" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+            <Grid x:Name="EncryptedTable"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+        </ScrollViewer>
+        
         <Button x:Name="EncryptButton" Grid.Row="5" Content="Зашифрувати" Width="Auto" HorizontalAlignment="Center" FontSize="12pt" Padding="10 5" Click="EncryptButton_Click"/>
         <Button x:Name="DescryptButton"  Grid.Row="5" Grid.Column="2" Content="Розшифрувати" Width="Auto" HorizontalAlignment="Center" FontSize="12pt" Padding="10 5"/>
+        <ScrollBar HorizontalAlignment="Left" Margin="0,-51,0,0" VerticalAlignment="Top"/>
     </Grid>
 </Window>
