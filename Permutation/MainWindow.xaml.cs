@@ -20,8 +20,11 @@ namespace Permutation
     /// </summary>
     public partial class MainWindow : Window
     {
-        private const int size = 40; // column and row size at the table
         private const int UniformLength = 1; // Border Thickness
+        private const int size = 40; // column and row size at the table
+        // глобальные статичиские перменные, хранят ссылки на таблицы из XAML
+        static public Grid OriginalTable { get; private set; }
+        static public Grid EncryptedTable { get; private set; }
         public double rowCount;
         public int columnCount;
         public int keyWordLength;
@@ -31,6 +34,8 @@ namespace Permutation
         public MainWindow()
         {
             InitializeComponent();
+            OriginalTable = Grid1;
+            EncryptedTable = Grid2;
         }
 
         private void EncryptButton_Click(object sender, RoutedEventArgs e)
@@ -50,6 +55,8 @@ namespace Permutation
                 {
                     rowCount = Math.Ceiling(rowCount);
                 }
+                // Добавляем 2 рядка для секретного слова и индекса
+                rowCount += 2;
 
                 for (int i = 0; i < columnCount; i++)
                 {
@@ -60,8 +67,8 @@ namespace Permutation
                     column.Width = new GridLength(size);
                     EncryptedTable.ColumnDefinitions.Add(column);
                 }
-                // к рядам надо добавить 2. Это будет +2 поля для ключевого слова и его идексов
-                for (int i = 0; i < rowCount + 2; i++)
+                
+                for (int i = 0; i < rowCount; i++)
                 {
                     RowDefinition row = new RowDefinition();
                     row.Height = new GridLength(size);
@@ -72,63 +79,52 @@ namespace Permutation
                 }
                 OriginalText = OriginalTextBox.Text;
                 keyWord = KeyTextBox.Text;
-                
+
+                string text; // представляет символ, который будет записан в клеточку
                 // первый и второй ряд - секретное слово и индекс
                 for (int i = 0; i < columnCount; i++)
                 {
-                    // Border
-                    Border border = new Border();
-                    border.BorderThickness = new Thickness(UniformLength);
-                    border.BorderBrush = new SolidColorBrush(Colors.DarkRed);
-                    // секретное слово
-                    TextBlock textBlock = new TextBlock();
-                    //Text
-                    textBlock.Text = keyWord[i].ToString();
+                    // Text
+                    text = keyWord[i].ToString();
                     // Grid
-                    border.SetValue(Grid.ColumnProperty, i);
-                    // Font
-                    textBlock.FontSize = 14;
-                    textBlock.VerticalAlignment = VerticalAlignment.Center;
-                    textBlock.HorizontalAlignment = HorizontalAlignment.Center;
-                    // Insert
-                    border.Child = textBlock;
-                    OriginalTable.Children.Add(border);
-
-                    // индекс секретного слова
-                    textBlock = new TextBlock();
+                    SquareCreator.create(text, 0, i);
+                    
                     // Text
                     int num = (int)keyWord[i];
-                    textBlock.Text = num.ToString();
+                    text = num.ToString();
                     // Grid
-                    textBlock.SetValue(Grid.RowProperty, 1);
-                    textBlock.SetValue(Grid.ColumnProperty, i);
-                    // Font
-                    textBlock.FontSize = 14;
-                    // Insert
-                    OriginalTable.Children.Add(textBlock);
+                    SquareCreator.create(text, 1, i);
                 }
 
                 // начиная со второго рядка заполнять теблицу символами исходного текста
                 int index = 0;
+                int indexExtra = 97; // индекс для екстра символов. Для заполнение пустых клеточек
+                int counterExtra = 0; // Показывает сколько екстра символов было добавлено
+                
                 for (int i = 2; i < rowCount; i++)
                 {
                     for (int j = 0; j < columnCount; j++)
                     {
-                        TextBlock textBlock = new TextBlock();
-                        // Text
-                        textBlock.Text = OriginalText[index++].ToString();
+                        // Text 1.1
+                        if (index < OriginalText.Length) {
+                            text = OriginalText[index++].ToString();
+                        }
+                        else
+                        {
+                            char symbol = (char)indexExtra;
+                            text = symbol.ToString();
+                            indexExtra++;
+                            counterExtra++;
+                        }
                         // Grid
-                        textBlock.SetValue(Grid.RowProperty, i);
-                        textBlock.SetValue(Grid.ColumnProperty, j);
-                        // Font
-                        textBlock.FontSize = 14;
-                        // Insert
-                        OriginalTable.Children.Add(textBlock);
+                        SquareCreator.create(text, i, j);
+                        
                     }
                 }
-
+                text = counterExtra.ToString();
+                SquareCreator.create(text, (int)rowCount - 1, columnCount - 1);
                 //OriginalTable.SetValue(Grid.ShowGridLinesProperty, true);
-                EncryptedTable.SetValue(Grid.ShowGridLinesProperty, true);
+                //EncryptedTable.SetValue(Grid.ShowGridLinesProperty, true);
             }
         }
     }
