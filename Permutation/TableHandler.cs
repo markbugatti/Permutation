@@ -62,13 +62,13 @@ namespace Permutation
                 // Text
                 text = keyWord[i].ToString();
                 // Grid
-                SquareCreator.create(text, 0, i);
+                SquareCreator.create(MainWindow.OriginalTable, text, 0, i);
 
                 // Text
                 int num = (int)keyWord[i];
                 text = num.ToString();
                 // Grid
-                SquareCreator.create(text, 1, i);
+                SquareCreator.create(MainWindow.OriginalTable, text, 1, i);
             }
         }
 
@@ -97,14 +97,33 @@ namespace Permutation
                         counterExtra++;
                     }
                     // Grid
-                    SquareCreator.create(character, i, j);
+                    SquareCreator.create(MainWindow.OriginalTable, character, i, j);
                 }
             }
 
             character = counterExtra.ToString();
             TextBlock textBlock = Find((int)rowCount - 1, columnCount - 1);
             textBlock.Text = "";
-            SquareCreator.create(text, (int)rowCount - 1, columnCount - 1);
+            SquareCreator.create(MainWindow.OriginalTable ,text, (int)rowCount - 1, columnCount - 1);
+        }
+
+        public static void FillTable1(Grid table,
+                                        string text,
+                                        int startColumn,
+                                        int startRow,
+                                        int endColumn,
+                                        int endRow)
+        {
+            int index = 0;
+            int textLength = text.Length;
+            for (int i = startRow; i < endRow; i++)
+            {
+                for (int j = startColumn; j < endColumn; j++)
+                {
+                    if(index < textLength)
+                        SquareCreator.create(table, text[index++].ToString(), i, j);
+                }
+            }
         }
     }
 }

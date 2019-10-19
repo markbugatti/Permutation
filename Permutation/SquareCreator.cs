@@ -12,7 +12,7 @@ namespace Permutation
     class SquareCreator
     {
         private const int UniformLength = 1; // Border Thickness
-        static public void create(string text, int row, int column)
+        static public void create(Grid table,string text, int row, int column)
         {
             // Border
             Border border = new Border();
@@ -31,7 +31,7 @@ namespace Permutation
             textBlock.HorizontalAlignment = HorizontalAlignment.Center;
             // Insert
             border.Child = textBlock;
-            MainWindow.OriginalTable.Children.Add(border);
+            table.Children.Add(border);
         }
     }
 }

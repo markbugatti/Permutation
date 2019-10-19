@@ -68,10 +68,12 @@ namespace Permutation
                 keyWord = KeyTextBox.Text;
 
                 TableHandler.FillKeyWord(keyWord, columnCount);
-                TableHandler.FillText(OriginalText, (int)rowCount, columnCount);
+                //TableHandler.FillText(OriginalText, (int)rowCount, columnCount);
+
+                TableHandler.FillTable1(Grid1, OriginalText, 0, 2, columnCount, (int)rowCount);
 
                 //
-
+                
             }
         }
     }
