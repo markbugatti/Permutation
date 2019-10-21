@@ -104,11 +104,12 @@ namespace Permutation
             character = counterExtra.ToString();
             TextBlock textBlock = Find((int)rowCount - 1, columnCount - 1);
             textBlock.Text = "";
-            SquareCreator.create(MainWindow.OriginalTable ,text, (int)rowCount - 1, columnCount - 1);
+            SquareCreator.create(MainWindow.OriginalTable, character, (int)rowCount - 1, columnCount - 1);
         }
 
         public static void FillTable1(Grid table,
                                         string text,
+                                        //bool isContent,
                                         int startColumn,
                                         int startRow,
                                         int endColumn,
@@ -116,14 +117,38 @@ namespace Permutation
         {
             int index = 0;
             int textLength = text.Length;
+            
+            const int firstLetter = 97;
+            int letter = firstLetter; // it contains number of letters
             for (int i = startRow; i < endRow; i++)
             {
                 for (int j = startColumn; j < endColumn; j++)
                 {
-                    if(index < textLength)
-                        SquareCreator.create(table, text[index++].ToString(), i, j);
+                    string character;
+                    if (index < textLength)
+                    {
+                        character = text[index++].ToString();
+                    }
+                    else if(j == endColumn-1 && i == endRow-1)
+                    {
+                        int number = letter - firstLetter + 1; // резница количество вписаных букв + 1, которая выделяется под запись самой разницы
+                        character = number.ToString();
+                    }
+                    else
+                    {
+                        character = ((char)letter).ToString();
+                        letter++;
+                    }
+                    SquareCreator.create(table, character, i, j);
                 }
             }
+        }
+
+        public static void CleanTable(Grid table)
+        {
+            table.RowDefinitions.Clear();
+            table.ColumnDefinitions.Clear();
+            table.Children.Clear();
         }
     }
 }

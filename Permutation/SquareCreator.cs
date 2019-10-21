@@ -12,7 +12,7 @@ namespace Permutation
     class SquareCreator
     {
         private const int UniformLength = 1; // Border Thickness
-        static public void create(Grid table,string text, int row, int column)
+        static public void create(Grid table, string text, int row, int column)
         {
             // Border
             Border border = new Border();
