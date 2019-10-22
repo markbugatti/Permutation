@@ -30,6 +30,7 @@ namespace Permutation
         public int keyWordLength;
         public int OriginalTextLength;
         public string keyWord;
+        public int[] keyWordIndexes;
         public string OriginalText;
         public MainWindow()
         {
@@ -70,22 +71,24 @@ namespace Permutation
 
                 TableHandler.FillKeyWord(keyWord, columnCount);
                 TableHandler.FillText(OriginalText, (int)rowCount, columnCount);
-                
-                //// put key word into original table
-                //TableHandler.FillTable1(Grid1, keyWord, 0, 0, columnCount, 1);
-                //// Convert key word to its indexes
-                //for (int i = 0; i < keyWord.Length; i++)
-                //{
-                //    int index = (int)keyWord[i];
-                //    string text = index.ToString();
-                //    TableHandler.FillTable1(Grid1, text, 0, 1, columnCount, 2);
-                //}
-                //// put key word indexes into original table
-                //TableHandler.FillTable1(Grid1, OriginalText, 0, 2, columnCount, (int)rowCount);
 
-                //
-                
+                keyWordIndexes = new int[keyWordLength];
+                for (int i = 0; i < keyWord.Length; i++)
+                {
+                    int number = keyWord[i];
+                    keyWordIndexes[i] = number;
+                }
+                Array.Sort(keyWordIndexes);
+
+                TableHandler.FillEncryptedTable(OriginalTable, keyWordIndexes, (int)rowCount);
+
+                TextHandler.OutEncryptedText(EncryptedTable, EncryptedTextBox, (int)rowCount, columnCount);
             }
+        }
+
+        private void DescryptButton_Click(object sender, RoutedEventArgs e)
+        {
+            TextHandler.OutNormalText(OriginalTable, OriginalTextBox, (int)rowCount, columnCount);
         }
     }
 }

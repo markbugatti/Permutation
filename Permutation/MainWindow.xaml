@@ -43,7 +43,7 @@
         </ScrollViewer>
         
         <Button x:Name="EncryptButton" Grid.Row="5" Content="Зашифрувати" Width="Auto" HorizontalAlignment="Center" FontSize="12pt" Padding="10 5" Click="EncryptButton_Click"/>
-        <Button x:Name="DescryptButton"  Grid.Row="5" Grid.Column="2" Content="Розшифрувати" Width="Auto" HorizontalAlignment="Center" FontSize="12pt" Padding="10 5"/>
+        <Button x:Name="DescryptButton"  Grid.Row="5" Grid.Column="2" Content="Розшифрувати" Width="Auto" HorizontalAlignment="Center" FontSize="12pt" Padding="10 5" Click="DescryptButton_Click"/>
         <ScrollBar HorizontalAlignment="Left" Margin="0,-51,0,0" VerticalAlignment="Top"/>
     </Grid>
 </Window>

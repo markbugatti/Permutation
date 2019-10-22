@@ -11,9 +11,9 @@ namespace Permutation
     class TableHandler
     {
         private const int size = 40; // column and row size at the table
-        public static TextBlock Find(int row, int column)
+        public static TextBlock Find(Grid table,int row, int column)
         {
-            foreach (Border border in MainWindow.OriginalTable.Children)
+            foreach (Border border in table.Children)
             {
                 int borderRow = (int)border.GetValue(Grid.RowProperty);
                 int borderColumn = (int)border.GetValue(Grid.ColumnProperty);
@@ -76,8 +76,8 @@ namespace Permutation
         {
             // начиная со второго рядка заполнять таблицу символами исходного текста
             int index = 0;
-            int indexExtra = 97; // индекс для екстра символов. Для заполнение пустых клеточек
-            int counterExtra = 0; // Показывает сколько екстра символов было добавлено
+            const int startletter = 97;
+            int letter = startletter; // индекс для екстра символов. Для заполнение пустых клеточек
             string character;
             
             for (int i = 2; i < (int)rowCount; i++)
@@ -89,57 +89,18 @@ namespace Permutation
                     {
                         character = text[index++].ToString();
                     }
+                    else if(i == rowCount-1 && j == columnCount-1)
+                    {
+                        int number = letter - startletter + 1; // считает сколько дополнительных символов было использовано. +1, куда записываеться сам результат 
+                        character = number.ToString();         
+                    }
                     else
                     {
-                        char a = (char)indexExtra;
-                        character = a.ToString();
-                        indexExtra++;
-                        counterExtra++;
+                        character = ((char)letter).ToString(); 
+                        letter++;
                     }
                     // Grid
                     SquareCreator.create(MainWindow.OriginalTable, character, i, j);
-                }
-            }
-
-            character = counterExtra.ToString();
-            TextBlock textBlock = Find((int)rowCount - 1, columnCount - 1);
-            textBlock.Text = "";
-            SquareCreator.create(MainWindow.OriginalTable, character, (int)rowCount - 1, columnCount - 1);
-        }
-
-        public static void FillTable1(Grid table,
-                                        string text,
-                                        //bool isContent,
-                                        int startColumn,
-                                        int startRow,
-                                        int endColumn,
-                                        int endRow)
-        {
-            int index = 0;
-            int textLength = text.Length;
-            
-            const int firstLetter = 97;
-            int letter = firstLetter; // it contains number of letters
-            for (int i = startRow; i < endRow; i++)
-            {
-                for (int j = startColumn; j < endColumn; j++)
-                {
-                    string character;
-                    if (index < textLength)
-                    {
-                        character = text[index++].ToString();
-                    }
-                    else if(j == endColumn-1 && i == endRow-1)
-                    {
-                        int number = letter - firstLetter + 1; // резница количество вписаных букв + 1, которая выделяется под запись самой разницы
-                        character = number.ToString();
-                    }
-                    else
-                    {
-                        character = ((char)letter).ToString();
-                        letter++;
-                    }
-                    SquareCreator.create(table, character, i, j);
                 }
             }
         }
@@ -149,6 +110,27 @@ namespace Permutation
             table.RowDefinitions.Clear();
             table.ColumnDefinitions.Clear();
             table.Children.Clear();
+        }
+
+        public static void FillEncryptedTable(Grid table, int[] keyWordIndexes, int rowCount)
+        {
+            for (int i = 0; i < keyWordIndexes.Length; i++)
+            {
+                for (int j = 0; j < keyWordIndexes.Length; j++)
+                {
+                    TextBlock textBlock = Find(table, 1, j);
+                    int number = int.Parse(textBlock.Text);
+                    if(keyWordIndexes[i] == number)
+                    {
+                        for (int k = 0; k < rowCount; k++)
+                        {
+                            textBlock = Find(table ,k, j);
+                            string text = textBlock.Text;
+                            SquareCreator.create(MainWindow.EncryptedTable, text, k, i);
+                        }
+                    }
+                }
+            }
         }
     }
 }
